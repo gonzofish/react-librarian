@@ -6,6 +6,9 @@
   "scripts": {
     "test": "tap \"test/**/*.spec.js\" --coverage"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gonzofish/react-librarian.git"
@@ -23,5 +26,18 @@
   "bugs": {
     "url": "https://github.com/gonzofish/react-librarian/issues"
   },
-  "homepage": "https://github.com/gonzofish/react-librarian#readme"
+  "homepage": "https://github.com/gonzofish/react-librarian#readme",
+  "dependencies": {
+    "erector-set": "^1.0.0-beta.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.5.0",
+    "eslint-plugin-node": "^5.1.1",
+    "nodemon": "^1.11.0",
+    "sinon": "^3.2.1",
+    "tap": "^10.7.2"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  }
 }

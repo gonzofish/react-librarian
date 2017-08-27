@@ -1,0 +1,12 @@
+.editorconfig
+.gitattributes
+.github
+.npmignore
+.nyc_output
+*.tgz
+coverage
+debug.log
+node_modules
+npm-debug.log*
+package
+test
