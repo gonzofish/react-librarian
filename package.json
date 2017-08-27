@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "tap \"test/**/*.spec.js\" --coverage",
+    "posttest": "tap --coverage-report=lcov && codecov",
     "watch": "nodemon -q -x \"npm run test\""
   },
   "publishConfig": {

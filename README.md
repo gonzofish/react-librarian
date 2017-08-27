@@ -1,5 +1,9 @@
 # React Librarian
 
+[![Build Status](https://semaphoreci.com/api/v1/gonzofish/react-librarian/branches/master/badge.svg)](https://semaphoreci.com/gonzofish/react-librarian)
+[![codecov](https://codecov.io/gh/gonzofish/react-librarian/branch/master/graph/badge.svg)](https://codecov.io/gh/gonzofish/react-librarian)
+[![npm version](https://badge.fury.io/js/react-librarian.svg)](https://badge.fury.io/js/react-librarian)
+
 A scaffolding setup for building React component libraries.
 
 - [Usage](#usage)
