@@ -1,0 +1,27 @@
+{
+  "name": "react-librarian",
+  "version": "0.0.0",
+  "description": "A React library scaffolding tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap \"test/**/*.spec.js\" --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gonzofish/react-librarian.git"
+  },
+  "keywords": [
+    "react",
+    "scaffold",
+    "scaffolding",
+    "typescript",
+    "webpack",
+    "rollup"
+  ],
+  "author": "Matt Fehskens",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gonzofish/react-librarian/issues"
+  },
+  "homepage": "https://github.com/gonzofish/react-librarian#readme"
+}
