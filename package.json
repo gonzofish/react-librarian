@@ -4,7 +4,8 @@
   "description": "A React library scaffolding tool",
   "main": "index.js",
   "scripts": {
-    "test": "tap \"test/**/*.spec.js\" --coverage"
+    "test": "tap \"test/**/*.spec.js\" --coverage",
+    "watch": "nodemon -q -x \"npm run test\""
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -30,6 +31,9 @@
   "dependencies": {
     "erector-set": "^1.0.0-beta.3"
   },
+  "peerDependencies": {
+    "fs-extra": "^4.0.1"
+  },
   "devDependencies": {
     "eslint": "^4.5.0",
     "eslint-plugin-node": "^5.1.1",
@@ -38,6 +42,6 @@
     "tap": "^10.7.2"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6.0.0"
   }
 }
