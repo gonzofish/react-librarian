@@ -4,9 +4,10 @@
   "description": "A React library scaffolding tool",
   "main": "index.js",
   "scripts": {
+    "test:dev": "tap \"test/**/*.spec.js\" --coverage",
     "test": "tap \"test/**/*.spec.js\" --coverage",
     "posttest": "tap --coverage-report=lcov && codecov",
-    "watch": "nodemon -q -x \"npm run test\""
+    "watch": "nodemon -q -x \"npm run test:dev\""
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

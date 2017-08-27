@@ -4,6 +4,7 @@ const sinon = require('sinon');
 const tap = require('tap');
 
 const initial = require('../commands/initial');
+const { input } = require('../tools');
 const utils = require('./test-utils');
 
 const sandbox = sinon.sandbox.create();
@@ -77,7 +78,9 @@ tap.test('Command: initial', (suite) => {
                     }
                 ],
                 true,
-                []
+                {
+                    git: input.convertYesNoValue
+                }
             ));
             test.done();
         });

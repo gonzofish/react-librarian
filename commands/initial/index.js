@@ -4,10 +4,10 @@ const fs = require('fs-extra');
 const erector = require('erector-set');
 const path = require('path');
 
-const { caseConvert, file } = require('../../tools');
+const { caseConvert, file, input } = require('../../tools');
 
 module.exports = () => {
-    return erector.inquire(getQuestions(), true, []);
+    return erector.inquire(getQuestions(), true, getPreviousTransforms());
 };
 
 const getQuestions = () => {
@@ -60,3 +60,7 @@ const getQuestions = () => {
 
 const checkNameFormat = (value) => value;
 const extractPackageName = (value) => value;
+
+const getPreviousTransforms = () => ({
+    git: input.convertYesNoValue
+});

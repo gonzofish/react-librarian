@@ -1,4 +1,5 @@
 module.exports = {
     caseConvert: require('./case-convert'),
-    file: require('./file')
+    file: require('./file'),
+    input: require('./input')
 };
