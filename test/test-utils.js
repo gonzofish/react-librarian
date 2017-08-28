@@ -13,6 +13,9 @@ const make = (command) => function () {
 const mock = (sandbox) => {
     const fsExists = fs.existsSync;
     const mocks = {
+        case: {
+            dashToWords: sandbox.stub(tools.caseConvert, 'dashToWords')
+        },
         erector: {
             construct: sandbox.stub(erector, 'construct'),
             inquire: sandbox.stub(erector, 'inquire')
@@ -23,6 +26,8 @@ const mock = (sandbox) => {
             realExists: fsExists
         },
         include: sandbox.stub(tools.file, 'include'),
+        log: sandbox.spy(),
+        logger: sandbox.stub(tools.logging, 'create'),
         path: {
             join: sandbox.stub(path, 'join')
         },
@@ -35,6 +40,13 @@ const mock = (sandbox) => {
 
     mocks.erector.construct.setTestMode();
     mocks.erector.inquire.rejects();
+
+    mocks.logger.returns({
+        error: mocks.log,
+        info: mocks.log,
+        log: mocks.log,
+        warning: mocks.log
+    });
 
     mocks.path.join.callsFake((...args) => args.join('/'));
 
