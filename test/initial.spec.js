@@ -61,6 +61,11 @@ tap.test('Command: initial', (suite) => {
                         transform: sinon.match.instanceOf(Function)
                     },
                     {
+                        name: 'componentName',
+                        useAnswer: 'packageName',
+                        transform: sinon.match.instanceOf(Function)
+                    },
+                    {
                         defaultAnswer: 'https://fake.repo',
                         name: 'repoUrl',
                         question: 'Repository URL:'
@@ -147,7 +152,7 @@ tap.test('Command: initial', (suite) => {
         mocks.case.dashToWords.returns('Herds of Words');
 
         make().catch(() => {
-            const { defaultAnswer } = mocks.erector.inquire.lastCall.args[0][4];
+            const { defaultAnswer } = mocks.erector.inquire.lastCall.args[0][5];
 
             test.equal(defaultAnswer([null, { answer: 'this-is-patrick' }]), 'Herds of Words');
             test.ok(mocks.case.dashToWords.calledWith('this-is-patrick'));
