@@ -2,4 +2,5 @@
 
 const commands = require('./commands');
 
-commands.initial();
+commands.initial()
+    .catch(console.error);

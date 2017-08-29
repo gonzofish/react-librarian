@@ -23,8 +23,8 @@ module.exports = () => {
 
     return erector.inquire(getQuestions(pkg, pkgDir), true, getPreviousTransforms()).then((answers) => {
         const cwd = process.cwd();
-        const root = file.create(pkgDir);
-        const src = file.create(root(), src);
+        const root = file.resolver.create(pkgDir);
+        const src = file.resolver.create(root(), 'src');
         const git = answers.find((answer) => answer.name === 'git');
         const librarianVersion = file.versions.get();
         const templates = file.getTemplates(pkgDir, __dirname, [
@@ -46,7 +46,7 @@ module.exports = () => {
             { name: 'tsconfig.json' },
             { name: 'tslint.json' }
         ]);
-        const componentTemplates = file.getTemplates(root('src'), file.resolver.manual(__dirname, '..', 'component'), [
+        const componentTemplates = file.getTemplates(src(), file.resolver.manual(__dirname, '..', 'component'), [
             { destination: src('components', '{{ componentName }}.tsx'), name: 'functional.tsx' },
             { destination: src('components', '__tests__', '{{ componentName }}.tsx'), name: 'spec.tsx' }
         ]);
@@ -94,7 +94,7 @@ const getQuestions = (pkg, pkgDir) => {
         {
             name: 'componentName',
             useAnswer: 'packageName',
-            transform: caseConvert.dashToPascal
+            transform: (value) => caseConvert.dashToPascal(value)
         },
         {
             defaultAnswer: (pkg.repository && pkg.repository.url) || undefined,
