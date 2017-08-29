@@ -16,14 +16,60 @@ const {
 let logger;
 
 module.exports = () => {
-    return erector.inquire(getQuestions(), true, getPreviousTransforms());
+    const pkgLocation = file.findPackageJson();
+    const pkgDir = path.dirname(pkgLocation);
+    const pkg = file.include(pkgLocation);
+    logger = logging.create('Initialize');
+
+    return erector.inquire(getQuestions(pkg, pkgDir), true, getPreviousTransforms()).then((answers) => {
+        const cwd = process.cwd();
+        const root = file.create(pkgDir);
+        const src = file.create(root(), src);
+        const git = answers.find((answer) => answer.name === 'git');
+        const librarianVersion = file.versions.get();
+        const templates = file.getTemplates(pkgDir, __dirname, [
+            { name: 'configs/tsconfig.build.json' },
+            { name: 'configs/tsconfig.es2015.json' },
+            { name: 'configs/tsconfig.es5.json' },
+            { name: 'configs/webpack.config.js' },
+            { name: 'example/App.tsx' },
+            { name: 'example/index.html' },
+            { name: 'example/vendor.ts' },
+            { name: 'src/index.ts' },
+            { name: 'tasks/build.js' },
+            { name: 'tasks/glob-copy.js' },
+            { name: 'tasks/rollup.js' },
+            { name: 'tasks/tsc.js' },
+            { destination: root('.gitignore'), name: '__gitignore' },
+            { name: 'package.json' },
+            { name: 'README.md' },
+            { name: 'tsconfig.json' },
+            { name: 'tslint.json' }
+        ]);
+        const componentTemplates = file.getTemplates(root('src'), file.resolver.manual(__dirname, '..', 'component'), [
+            { destination: src('components', '{{ componentName }}.tsx'), name: 'functional.tsx' },
+            { destination: src('components', '__tests__', '{{ componentName }}.tsx'), name: 'spec.tsx' }
+        ]);
+        const result = erector.construct(
+            answers.concat({ answer: librarianVersion, name: 'librarianVersion' }),
+            templates.concat(componentTemplates)
+        );
+
+        process.chdir(root());
+
+        if (git.answer) {
+            initGit(root());
+        }
+
+        process.chdir(cwd);
+
+        return result;
+    });
 };
 
-const getQuestions = () => {
-    const pkgLocation = file.findPackageJson();
-    const pkg = file.include(pkgLocation);
+const getQuestions = (pkg, pkgDir) => {
     const gitLocation = file.resolver.manual(
-        path.dirname(pkgLocation),
+        pkgDir,
         '.git'
     );
     const gitExists = fs.existsSync(gitLocation);
@@ -32,8 +78,6 @@ const getQuestions = () => {
         question: gitExists ? 'Re-initialize Git?' : 'Initialize Git?'
     };
     // const src = file.resolver.create(pkgLocation, 'src');
-
-    logger = logging.create('Initialize');
 
     return [
         {
@@ -46,6 +90,11 @@ const getQuestions = () => {
             name: 'packageName',
             useAnswer: 'name',
             transform: extractPackageName
+        },
+        {
+            name: 'componentName',
+            useAnswer: 'packageName',
+            transform: caseConvert.dashToPascal
         },
         {
             defaultAnswer: (pkg.repository && pkg.repository.url) || undefined,
@@ -109,3 +158,5 @@ const extractPackageName = (name) => {
 const getPreviousTransforms = () => ({
     git: input.convertYesNoValue
 });
+
+const initGit = () => {};
