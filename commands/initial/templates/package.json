@@ -14,7 +14,7 @@
     "prebuild": "rimraf dist out-tsc",
     "test": "jest --coverage",
     "test:watch": "jest --watch --coverage",
-    "start": "webpack-dev-server --config webpack/webpack.dev.js"
+    "start": "webpack-dev-server --config configs/webpack.config.js"
   },
   "keywords": [],
   "author": "",

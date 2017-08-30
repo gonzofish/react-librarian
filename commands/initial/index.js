@@ -1,5 +1,6 @@
 'use strict';
 
+const childProcess = require('child_process');
 const fs = require('fs-extra');
 const erector = require('erector-set');
 const path = require('path');
@@ -28,27 +29,27 @@ module.exports = () => {
         const git = answers.find((answer) => answer.name === 'git');
         const librarianVersion = file.versions.get();
         const templates = file.getTemplates(pkgDir, __dirname, [
-            { name: 'configs/tsconfig.build.json' },
-            { name: 'configs/tsconfig.es2015.json' },
-            { name: 'configs/tsconfig.es5.json' },
-            { name: 'configs/webpack.config.js' },
+            { name: 'configs/tsconfig.build.json', overwrite: true },
+            { name: 'configs/tsconfig.es2015.json', overwrite: true },
+            { name: 'configs/tsconfig.es5.json', overwrite: true },
+            { name: 'configs/webpack.config.js', overwrite: true },
             { name: 'example/App.tsx' },
             { name: 'example/index.html' },
             { name: 'example/vendor.ts' },
             { name: 'src/index.ts' },
-            { name: 'tasks/build.js' },
-            { name: 'tasks/glob-copy.js' },
-            { name: 'tasks/rollup.js' },
-            { name: 'tasks/tsc.js' },
+            { name: 'tasks/build.js', overwrite: true },
+            { name: 'tasks/glob-copy.js', overwrite: true },
+            { name: 'tasks/rollup.js', overwrite: true },
+            { name: 'tasks/tsc.js', overwrite: true },
             { destination: root('.gitignore'), name: '__gitignore' },
-            { name: 'package.json' },
+            { name: 'package.json', overwrite: true },
             { name: 'README.md' },
-            { name: 'tsconfig.json' },
-            { name: 'tslint.json' }
+            { name: 'tsconfig.json', overwrite: true },
+            { name: 'tslint.json', overwrite: true }
         ]);
         const componentTemplates = file.getTemplates(src(), file.resolver.manual(__dirname, '..', 'component'), [
             { destination: src('components', '{{ componentName }}.tsx'), name: 'functional.tsx' },
-            { destination: src('components', '__tests__', '{{ componentName }}.tsx'), name: 'spec.tsx' }
+            { destination: src('components', '__tests__', '{{ componentName }}.spec.tsx'), name: 'spec.tsx' }
         ]);
         const result = erector.construct(
             answers.concat({ answer: librarianVersion, name: 'librarianVersion' }),
@@ -58,9 +59,10 @@ module.exports = () => {
         process.chdir(root());
 
         if (git.answer) {
-            initGit(root());
+            initGit(root);
         }
 
+        exec('npm i');
         process.chdir(cwd);
 
         return result;
@@ -77,7 +79,6 @@ const getQuestions = (pkg, pkgDir) => {
         answer: gitExists ? 'N' : 'Y',
         question: gitExists ? 'Re-initialize Git?' : 'Initialize Git?'
     };
-    // const src = file.resolver.create(pkgLocation, 'src');
 
     return [
         {
@@ -159,4 +160,17 @@ const getPreviousTransforms = () => ({
     git: input.convertYesNoValue
 });
 
-const initGit = () => {};
+const initGit = (root) => {
+    file.deleteFolder(root('.git'));
+    exec('git init');
+};
+
+const exec = (cmd, args = []) => {
+    const isWindows = /^win/.test(process.platform);
+
+    if (isWindows) {
+        cmd = cmd + '.cmd';
+    }
+
+    childProcess.execSync(cmd, args, { stdio: [0, 1, 2] })
+};

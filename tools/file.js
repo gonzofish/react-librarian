@@ -3,6 +3,23 @@
 const fs = require('fs-extra');
 const path = require('path');
 
+const deleteFolder = (folder)  => {
+    if (fs.existsSync(folder)) {
+        fs.readdirSync(folder).forEach((file) => removePath(folder, file));
+        fs.rmdirSync(folder);
+    }
+};
+
+const removePath = (folder, file) => {
+    const filepath = path.resolve(folder, file);
+
+    if (fs.lstatSync(filepath).isDirectory()) {
+        deleteFolder(filepath);
+    } else {
+        fs.unlinkSync(filepath);
+    }
+};
+
 const findPackageJson = (dir) => {
     dir = dir || process.cwd();
 
@@ -62,7 +79,7 @@ const getVersion = () => {
 
 const getVersionFromPackage = (pkg) =>
     getPackageVersion(pkg, 'devDependencies') ||
-        getPackageVersion(pkg, 'dependencies');
+        getPackageVersion(pkg, 'dependencies') || '';
 
 const getPackageVersion = (pkg, attribute) =>
     pkg[attribute] &&
@@ -75,6 +92,7 @@ const versions = {
 };
 
 module.exports = {
+    deleteFolder,
     findPackageJson,
     getTemplates,
     include,
