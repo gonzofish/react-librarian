@@ -1,5 +1,6 @@
 'use strict';
 
+const childProcess = require('child_process');
 const sinon = require('sinon');
 const tap = require('tap');
 
@@ -170,7 +171,7 @@ tap.test('Command: initial', (suite) => {
         });
     });
 
-    suite.only('with answers', (subSuite) => {
+    suite.test('with answers', (subSuite) => {
         const answers = [
             { answer: 'my-pkg', name: 'name' },
             { answer: 'my-pkg', name: 'packageName' },
@@ -188,21 +189,25 @@ tap.test('Command: initial', (suite) => {
         const finalTemplates = templates.concat(templates);
         let chdir;
         let cwd;
+        let exec;
 
         subSuite.beforeEach((done) => {
             mocks.erector.inquire.resetBehavior();
             mocks.erector.inquire.resolves(answers);
 
-            // mocks.getTemplates.callsFake((rootDir, dir, files) => files.map((fileDesc) => ({
-            //     destination: fileDesc.destination,
-            //     filename: fileDesc.name
-            // })));
             mocks.getTemplates.returns(templates);
 
             chdir = sandbox.stub(process, 'chdir');
             cwd = sandbox.stub(process, 'cwd');
             cwd.returns('/cwd');
 
+            exec = sandbox.stub(childProcess, 'execSync');
+
+            done();
+        });
+
+        subSuite.afterEach((done) => {
+            exec.restore();
             done();
         });
 
@@ -213,6 +218,38 @@ tap.test('Command: initial', (suite) => {
                 test.ok(mocks.erector.construct.called);
                 test.deepEqual(mocks.erector.construct.lastCall.args[0], finalAnswers);
                 test.deepEqual(mocks.erector.construct.lastCall.args[1], finalTemplates);
+                test.end();
+            });
+        });
+
+        subSuite.test('should call `git init` if required', (test) => {
+            test.plan(2);
+
+            const deleteFolder = utils.mockOnce(sandbox, 'file', 'deleteFolder');
+
+            answers[answers.length - 1].answer = true;
+            make().then(() => {
+                test.ok(deleteFolder.calledWith('/create//root/.git'));
+                test.ok(exec.calledWith('git init'));
+                test.end();
+            });
+        });
+
+        subSuite.test('should call `npm i`', (test) => {
+            test.plan(1);
+
+            make().then(() => {
+                test.ok(exec.calledWith('npm i'));
+                test.end();
+            });
+        });
+
+        subSuite.test('should chdir to root & back to the CWD', (test) => {
+            test.plan(2);
+
+            make().then(() => {
+                test.ok(chdir.calledWith('/create//root'));
+                test.ok(chdir.calledWith('/cwd'));
                 test.end();
             });
         });

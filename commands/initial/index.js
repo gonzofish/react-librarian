@@ -62,7 +62,7 @@ module.exports = () => {
             initGit(root);
         }
 
-        // exec('npm i');
+        exec('npm i');
         process.chdir(cwd);
 
         return result;
@@ -168,6 +168,7 @@ const initGit = (root) => {
 const exec = (cmd, args = []) => {
     const isWindows = /^win/.test(process.platform);
 
+    /* istanbul ignore next */
     if (isWindows) {
         cmd = cmd + '.cmd';
     }

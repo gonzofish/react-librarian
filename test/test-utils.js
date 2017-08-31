@@ -68,7 +68,11 @@ const mock = (sandbox) => {
 
 const argsPath = (args) => args.join('/');
 
+const mockOnce = (sandbox, tool, method) =>
+    sandbox.stub(tools[tool], method);
+
 module.exports = {
     make,
-    mock
+    mock,
+    mockOnce
 };
