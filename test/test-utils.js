@@ -11,6 +11,8 @@ const make = (command) => function () {
 }
 
 const mock = (sandbox) => {
+    erector.construct.setTestMode(true);
+
     const fsExists = fs.existsSync;
     const mocks = {
         case: {
@@ -21,6 +23,7 @@ const mock = (sandbox) => {
             construct: sandbox.stub(erector, 'construct'),
             inquire: sandbox.stub(erector, 'inquire')
         },
+        getTemplates: sandbox.stub(tools.file, 'getTemplates'),
         findPackageJson: sandbox.stub(tools.file, 'findPackageJson'),
         fs: {
             exists: sandbox.stub(fs, 'existsSync'),
@@ -39,7 +42,6 @@ const mock = (sandbox) => {
         }
     };
 
-    mocks.erector.construct.setTestMode();
     mocks.erector.inquire.rejects();
 
     mocks.logger.returns({

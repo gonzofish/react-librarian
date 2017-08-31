@@ -62,7 +62,7 @@ module.exports = () => {
             initGit(root);
         }
 
-        exec('npm i');
+        // exec('npm i');
         process.chdir(cwd);
 
         return result;

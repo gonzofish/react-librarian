@@ -67,7 +67,7 @@ const resolvePath = (prefix, args) => {
 
 const checkIsBranch = (version) => /^(git\+)?https?\:/.test(version);
 const getVersion = () => {
-    const pkg = include(findPackageJson());
+    const pkg = include(module.exports.findPackageJson());
     let version;
 
     if (pkg) {

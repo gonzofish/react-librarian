@@ -17,6 +17,7 @@ tap.test('Command: initial', (suite) => {
     let mocks;
 
     suite.beforeEach((done) => {
+        sandbox.restore();
         make = utils.make(initial);
         mocks = utils.mock(sandbox);
 
@@ -34,11 +35,6 @@ tap.test('Command: initial', (suite) => {
             }
         });
 
-        done();
-    });
-
-    suite.afterEach((done) => {
-        sandbox.restore();
         done();
     });
 
@@ -145,10 +141,24 @@ tap.test('Command: initial', (suite) => {
         });
     });
 
+    suite.test('should a componentName question transform that converts dash-case to PascalCase', (test) => {
+        test.plan(2);
+
+        mocks.case.dashToPascal.returns('BigTime');
+
+        make().catch(() => {
+            const { transform } = mocks.erector.inquire.lastCall.args[0][2];
+
+            test.equal(transform('my-package'), 'BigTime');
+            test.ok(mocks.case.dashToPascal.calledWith('my-package'));
+
+            test.end();
+        });
+    });
+
     suite.test('should have a readmeTitle question defaultAnswer that converts the packagenName into words', (test) => {
         test.plan(2);
 
-        mocks.erector.inquire.rejects();
         mocks.case.dashToWords.returns('Herds of Words');
 
         make().catch(() => {
@@ -158,6 +168,56 @@ tap.test('Command: initial', (suite) => {
             test.ok(mocks.case.dashToWords.calledWith('this-is-patrick'));
             test.end();
         });
+    });
+
+    suite.only('with answers', (subSuite) => {
+        const answers = [
+            { answer: 'my-pkg', name: 'name' },
+            { answer: 'my-pkg', name: 'packageName' },
+            { answer: 'MyPkg', name: 'componentName' },
+            { answer: 'repoUrl', name: 'http://my.repo' },
+            { answer: '100.200.300', name: 'version' },
+            { answer: 'Pizza Party', name: 'readmeTitle' },
+            { answer: false, name: 'git' }
+        ];
+        const finalAnswers = answers.concat({ answer: null, name: 'librarianVersion' });
+        const templates = [
+            { destination: '/root/path', template: 'some/template/path' },
+            { destination: '/root/blank-file', template: undefined }
+        ];
+        const finalTemplates = templates.concat(templates);
+        let chdir;
+        let cwd;
+
+        subSuite.beforeEach((done) => {
+            mocks.erector.inquire.resetBehavior();
+            mocks.erector.inquire.resolves(answers);
+
+            // mocks.getTemplates.callsFake((rootDir, dir, files) => files.map((fileDesc) => ({
+            //     destination: fileDesc.destination,
+            //     filename: fileDesc.name
+            // })));
+            mocks.getTemplates.returns(templates);
+
+            chdir = sandbox.stub(process, 'chdir');
+            cwd = sandbox.stub(process, 'cwd');
+            cwd.returns('/cwd');
+
+            done();
+        });
+
+        subSuite.test('should call erector.construct', (test) => {
+            test.plan(3);
+
+            make().then(() => {
+                test.ok(mocks.erector.construct.called);
+                test.deepEqual(mocks.erector.construct.lastCall.args[0], finalAnswers);
+                test.deepEqual(mocks.erector.construct.lastCall.args[1], finalTemplates);
+                test.end();
+            });
+        });
+
+        subSuite.end();
     });
 
     suite.end();
