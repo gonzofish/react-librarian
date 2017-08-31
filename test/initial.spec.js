@@ -181,7 +181,7 @@ tap.test('Command: initial', (suite) => {
             { answer: 'Pizza Party', name: 'readmeTitle' },
             { answer: false, name: 'git' }
         ];
-        const finalAnswers = answers.concat({ answer: null, name: 'librarianVersion' });
+        const finalAnswers = answers.concat({ answer: '1.2.3', name: 'librarianVersion' });
         const templates = [
             { destination: '/root/path', template: 'some/template/path' },
             { destination: '/root/blank-file', template: undefined }

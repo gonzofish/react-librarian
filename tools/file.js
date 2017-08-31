@@ -67,7 +67,20 @@ const resolvePath = (prefix, args) => {
 
 const checkIsBranch = (version) => /^(git\+)?https?\:/.test(version);
 const getVersion = () => {
-    const pkg = include(module.exports.findPackageJson());
+    let version = getPackageLibrarianVersion();
+
+    if (!module.exports.versions.checkIsBranch(version)) {
+        version = module.exports.include(
+            module.exports.resolver.manual(__dirname, '..', '..', 'package.json')
+        ).version;
+    }
+
+    return version;
+};
+
+const getPackageLibrarianVersion = () => {
+    const json = module.exports.findPackageJson();
+    const pkg = module.exports.include(json);
     let version;
 
     if (pkg) {
@@ -83,8 +96,8 @@ const getVersionFromPackage = (pkg) =>
 
 const getPackageVersion = (pkg, attribute) =>
     pkg[attribute] &&
-    'angular-librarian' in pkg[attribute] &&
-    pkg[attribute]['angular-librarian'];
+    'react-librarian' in pkg[attribute] &&
+    pkg[attribute]['react-librarian'];
 
 const versions = {
     checkIsBranch,

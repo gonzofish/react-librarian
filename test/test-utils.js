@@ -39,6 +39,9 @@ const mock = (sandbox) => {
             create: sandbox.stub(tools.file.resolver, 'create'),
             manual: sandbox.stub(tools.file.resolver, 'manual'),
             root: sandbox.stub(tools.file.resolver, 'root')
+        },
+        versions: {
+            get: sandbox.stub(tools.file.versions, 'get')
         }
     };
 
@@ -62,6 +65,8 @@ const mock = (sandbox) => {
     mocks.resolver.root.callsFake((...args) =>
         argsPath(['/root'].concat(args))
     );
+
+    mocks.versions.get.returns('1.2.3');
 
     return mocks;
 };
