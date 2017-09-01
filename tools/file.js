@@ -69,9 +69,9 @@ const checkIsBranch = (version) => /^(git\+)?https?\:/.test(version);
 const getVersion = () => {
     let version = getPackageLibrarianVersion();
 
-    if (!module.exports.versions.checkIsBranch(version)) {
+    if (!module.exports.versions.checkIsBranch(version || '')) {
         version = module.exports.include(
-            module.exports.resolver.manual(__dirname, '..', '..', 'package.json')
+            module.exports.resolver.manual(__dirname, '..', 'package.json')
         ).version;
     }
 
