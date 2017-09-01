@@ -1,7 +1,7 @@
 'use strict';
 
 const checkIsDashCase = (value) =>
-    /^[a-z](\-?[a-z0-9])+$/i.test(value);
+    /^[a-z](-?[a-z0-9])+$/i.test(value);
 
 const dashToCamel = (value, replaceChar = '') =>
     value.replace(/(-.)/g, (match) =>

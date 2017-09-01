@@ -65,7 +65,7 @@ const resolvePath = (prefix, args) => {
     );
 };
 
-const checkIsBranch = (version) => /^(git\+)?https?\:/.test(version);
+const checkIsBranch = (version) => /^(git\+)?https?:/.test(version);
 const getVersion = () => {
     let version = getPackageLibrarianVersion();
 
