@@ -7,6 +7,7 @@
     "test:dev": "tap \"test/**/*.spec.js\" --coverage",
     "test": "tap \"test/**/*.spec.js\" --coverage",
     "posttest": "tap --coverage-report=lcov && codecov",
+    "tagVersion": "np",
     "watch": "nodemon -q -x \"npm run test:dev\""
   },
   "publishConfig": {
@@ -39,6 +40,7 @@
     "eslint": "^4.5.0",
     "eslint-plugin-node": "^5.1.1",
     "nodemon": "^1.11.0",
+    "np": "^2.16.0",
     "sinon": "^3.2.1",
     "tap": "^10.7.2"
   },
