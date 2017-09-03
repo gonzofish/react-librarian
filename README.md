@@ -9,7 +9,7 @@ A scaffolding setup for building React component libraries.
 - [Usage](#usage)
 - [Generative Commands](#generative-commands)
     - [Component](#component)
-    - [Initialize](#initialize)
+    - [Initialize](#initial)
 - [Project Commands](#project-commands)
     - [Build](#build)
     - [Lint](#lint)
