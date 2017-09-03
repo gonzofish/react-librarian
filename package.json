@@ -4,11 +4,11 @@
   "description": "A React library scaffolding tool",
   "main": "index.js",
   "scripts": {
-    "test:dev": "tap \"test/**/*.spec.js\" --coverage",
-    "test": "tap \"test/**/*.spec.js\" --coverage",
-    "posttest": "tap --coverage-report=lcov && codecov",
+    "test": "tap \"test/**/*.spec.js\"",
+    "test:cov": "tap \"test/**/*.spec.js\" --coverage",
+    "reportCoverage": "tap --coverage-report=lcov && codecov",
     "tagVersion": "np",
-    "watch": "nodemon -q -x \"npm run test:dev\""
+    "watch": "nodemon -q -x \"npm run test:cov\""
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
