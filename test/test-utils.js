@@ -16,6 +16,7 @@ const mock = (sandbox) => {
     const fsExists = fs.existsSync;
     const mocks = {
         case: {
+            checkIsDashCase: sandbox.stub(tools.caseConvert, 'checkIsDashCase'),
             dashToPascal: sandbox.stub(tools.caseConvert, 'dashToPascal'),
             dashToWords: sandbox.stub(tools.caseConvert, 'dashToWords'),
         },

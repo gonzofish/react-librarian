@@ -15,6 +15,16 @@ tap.test('Tool: caseConvert', (suite) => {
         done();
     });
 
+    suite.test('#checkIsDashCase should return tru for a dash-case', (test) => {
+        const check = convert.checkIsDashCase;
+
+        test.plan(2);
+        test.ok(check('my-name'), true);
+        test.notOk(check('-nope'), false);
+
+        test.end();
+    });
+
     suite.test('#dashToCamel should convert dash-case to camelCase', (test) => {
         test.plan(1);
         test.equal(

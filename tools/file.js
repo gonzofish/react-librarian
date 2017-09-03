@@ -92,7 +92,7 @@ const getPackageLibrarianVersion = () => {
 
 const getVersionFromPackage = (pkg) =>
     getPackageVersion(pkg, 'devDependencies') ||
-        getPackageVersion(pkg, 'dependencies') || '';
+        getPackageVersion(pkg, 'dependencies');
 
 const getPackageVersion = (pkg, attribute) =>
     pkg[attribute] &&
