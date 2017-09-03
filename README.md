@@ -11,8 +11,10 @@ A scaffolding setup for building React component libraries.
     - [Component](#component)
     - [Initialize](#initialize)
 - [Project Commands](#project-commands)
-- [Unit Testing](#unit-testing)
-- [Packaging](#packaging)
+    - [Build](#build)
+    - [Lint](#lint)
+    - [Tag Version](#tagVersion)
+    - [Test](#test)
 - [Contributing](#contributing)
 
 ## <a id="usage"></a>Usage
@@ -202,8 +204,69 @@ means `my-pkg` becomes `MyPkg`.
 
 ## <a id="project-commands"></a>Project Commands
 
-## <a id="unit-testing"></a>Unit Testing
+These are commands for developing with your library. All commands
+are run via `npm run <command>`.
 
-## <a id="packaging"></a>Packaging
+Command|Purpose
+---|---
+[build](#build)|Runs code through TypeScript & Rollup to produce consumable packages
+[lint](#lint)|Verify code matches linting rules
+[tagVersion](#tagVersion)|Use `np` to verify your project is ready to publish, then build & publish it
+[test](#test)|Run unit tests through Jest
+
+### <a id="build"></a>Build
+
+Build the library's code via TypeScript & Rollup. The built code will end up in
+the `dist` directory.
+
+#### Call Signature
+
+```shell
+> npm run build
+```
+
+### <a id="lint"></a>Lint
+
+Verify that all source code matches TSLint rules.
+
+#### Call Signature
+
+```shell
+> npm run lint
+```
+
+### <a id="tagVersion"></a>Tag Version
+
+Run project through [`np`](https://github.com/sindresorhus/np) to prepare for
+publishing, then build the code & publish it. This will ask you a series of
+questions, which will update your `package.json`, tag your code, and push it
+to your repository. After that `npm run build` will execute, followed by an
+`npm publish dist`
+
+#### Call Signature
+
+```shell
+> npm run tagVersion
+```
+
+### <a id="test"></a>Test
+
+Run unit tests through Jest. There are three flavors of tests:
+
+- Basic: just runs tests through Jest
+- Coverage (`cov`): which will run your tests and output test coverage
+- Watch (`watch`): for continuous test development; watches your files as your
+  code, re-running tests as files are saved and outputting coverage
+
+#### Call Signatures
+
+```shell
+> npm test
+> npm run test
+> npm run test:cov
+> npm run test:watch
+```
 
 ## <a id="contributing"></a>Contributing
+
+If you'd like to contribute to React Librarian, please see the [contribution guide](.github/CONTRIBUTING.md)!
