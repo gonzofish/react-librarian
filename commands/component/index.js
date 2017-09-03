@@ -40,7 +40,7 @@ const getRemainingTag = (tag) => {
 
     if (tag && caseConvert.checkIsPascalCase(tag)) {
         remains.answers = [
-            { answer: tag, name: 'name' }
+            { answer: tag, name: 'tag' }
         ];
     } else {
         remains.questions = [

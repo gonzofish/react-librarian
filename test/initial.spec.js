@@ -58,7 +58,7 @@ tap.test('Command: initial', (suite) => {
                         transform: sinon.match.instanceOf(Function)
                     },
                     {
-                        name: 'componentName',
+                        name: 'tag',
                         useAnswer: 'packageName',
                         transform: sinon.match.instanceOf(Function)
                     },
