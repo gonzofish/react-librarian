@@ -1,7 +1,5 @@
 'use strict';
 
-// const fs = require('fs-extra');
-// const path = require('path');
 const sinon = require('sinon');
 const tap = require('tap');
 
