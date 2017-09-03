@@ -29,12 +29,10 @@ A scaffolding setup for building React component libraries.
 
 ### Install
 
-Use NPM or Yarn to install:
+Use NPM to install:
 
 ```shell
 > npm install react-librarian --save-dev
-# or
-> yarn add react-librarian --dev
 ```
 
 ### Initialize Your Project
