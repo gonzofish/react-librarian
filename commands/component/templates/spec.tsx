@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { {{ componentName }} } from '../{{ componentName }}';
+import { {{ tag }} } from '../{{ tag }}';
 
-describe('Component: {{ componentName }}', () => {
+describe('Component: {{ tag }}', () => {
     test('should render without error', () => {
-        expect(shallow(<{{ componentName }} />).contains(<div>{{ componentName }}</div>)).toBe(true);
+        expect(shallow(<{{ tag }} />).contains(<div>{{ tag }}</div>)).toBe(true);
     });
 });

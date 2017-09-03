@@ -48,8 +48,8 @@ module.exports = () => {
             { name: 'tslint.json', overwrite: true }
         ]);
         const componentTemplates = file.getTemplates(src(), file.resolver.manual(__dirname, '..', 'component'), [
-            { destination: src('components', '{{ componentName }}.tsx'), name: 'functional.tsx' },
-            { destination: src('components', '__tests__', '{{ componentName }}.spec.tsx'), name: 'spec.tsx' }
+            { destination: src('components', '{{ tag }}.tsx'), name: 'functional.tsx' },
+            { destination: src('components', '__tests__', '{{ tag }}.spec.tsx'), name: 'spec.tsx' }
         ]);
         const result = erector.construct(
             answers.concat({ answer: librarianVersion, name: 'librarianVersion' }),
@@ -93,7 +93,7 @@ const getQuestions = (pkg, pkgDir) => {
             transform: extractPackageName
         },
         {
-            name: 'componentName',
+            name: 'tag',
             useAnswer: 'packageName',
             transform: (value) => caseConvert.dashToPascal(value)
         },

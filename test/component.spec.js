@@ -33,12 +33,7 @@ tap.test('Command: component', (suite) => {
                 [
                     {
                         name: 'tag',
-                        question: 'Tag name (in dash-case):',
-                        transform: sinon.match.instanceOf(Function)
-                    },
-                    {
-                        name: 'componentName',
-                        useAnswer: 'tag',
+                        question: 'Tag name (in PascalCase):',
                         transform: sinon.match.instanceOf(Function)
                     },
                     {
@@ -52,33 +47,21 @@ tap.test('Command: component', (suite) => {
         });
     });
 
-    suite.test('should have tag transform that checks for dash-case', (test) => {
+    suite.test('should have tag transform that checks for PascalCase', (test) => {
         test.plan(3);
 
         make().catch(() => {
             const { transform } = mocks.erector.inquire.lastCall.args[0][0];
 
-            mocks.case.checkIsDashCase.returns(true);
+            mocks.case.checkIsPascalCase.reset();
+            mocks.case.checkIsPascalCase.returns(true);
             test.equal(transform('bobble'), 'bobble');
 
-            mocks.case.checkIsDashCase.resetBehavior();
-            mocks.case.checkIsDashCase.returns(false);
+            mocks.case.checkIsPascalCase.resetBehavior();
+            mocks.case.checkIsPascalCase.returns(false);
             test.equal(transform('bobble'), null);
 
-            test.ok(mocks.case.checkIsDashCase.calledTwice);
-
-            test.end();
-        });
-    });
-
-    suite.test('should have a componentName transform that calls dashToPascal', (test) => {
-        test.plan(1);
-
-        make().catch(() => {
-            const { transform } = mocks.erector.inquire.lastCall.args[0][1];
-
-            mocks.case.dashToPascal.returns('burger');
-            test.equal(transform('pizza'), 'burger');
+            test.ok(mocks.case.checkIsPascalCase.calledTwice);
 
             test.end();
         });
@@ -88,7 +71,7 @@ tap.test('Command: component', (suite) => {
         test.plan(8);
 
         make().catch(() => {
-            const { transform } = mocks.erector.inquire.lastCall.args[0][2];
+            const { transform } = mocks.erector.inquire.lastCall.args[0][1];
 
             test.equal(transform('c'), 'class');
             test.equal(transform('cl'), 'class');
@@ -111,12 +94,7 @@ tap.test('Command: component', (suite) => {
                 [
                     {
                         name: 'tag',
-                        question: 'Tag name (in dash-case):',
-                        transform: sinon.match.instanceOf(Function)
-                    },
-                    {
-                        name: 'componentName',
-                        useAnswer: 'tag',
+                        question: 'Tag name (in PascalCase):',
                         transform: sinon.match.instanceOf(Function)
                     }
                 ]
@@ -129,7 +107,9 @@ tap.test('Command: component', (suite) => {
     suite.test('should only as for a type if only a tag is provided', (test) => {
         test.plan(1);
 
-        make('my-tag').catch(() => {
+        mocks.case.checkIsPascalCase.returns(true);
+
+        make('MyTag').catch(() => {
             test.ok(mocks.erector.inquire.calledWith(
                 [
                     {
@@ -147,7 +127,9 @@ tap.test('Command: component', (suite) => {
     suite.test('should ask no questions if a type & tag are provided', (test) => {
         test.plan(1);
 
-        make('f', 'my-tag').catch(() => {
+        mocks.case.checkIsPascalCase.returns(true);
+
+        make('f', 'MyTag').catch(() => {
             test.ok(mocks.erector.inquire.calledWith([]));
             test.end();
         });
@@ -156,7 +138,7 @@ tap.test('Command: component', (suite) => {
     suite.test('should construct the files for a functional component', (test) => {
         const answers = [
             { answer: 'pizza', name: 'type' },
-            { answer: 'DeliciousFood', name: 'componentName' }
+            { answer: 'DeliciousFood', name: 'tag' }
         ];
         const templates = [
             { name: 'pizza.tsx' },

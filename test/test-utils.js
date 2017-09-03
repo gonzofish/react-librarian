@@ -17,6 +17,7 @@ const mock = (sandbox) => {
     const mocks = {
         case: {
             checkIsDashCase: sandbox.stub(tools.caseConvert, 'checkIsDashCase'),
+            checkIsPascalCase: sandbox.stub(tools.caseConvert, 'checkIsPascalCase'),
             dashToPascal: sandbox.stub(tools.caseConvert, 'dashToPascal'),
             dashToWords: sandbox.stub(tools.caseConvert, 'dashToWords'),
         },

@@ -38,22 +38,16 @@ const getRemainingQuestions = (type, tag) => {
 const getRemainingTag = (tag) => {
     const remains = {};
 
-    if (tag) {
+    if (tag && caseConvert.checkIsPascalCase(tag)) {
         remains.answers = [
-            { answer: tag, name: 'name' },
-            { answer: caseConvert.dashToPascal(tag), name: 'componentName' }
+            { answer: tag, name: 'name' }
         ];
     } else {
         remains.questions = [
             {
                 name: 'tag',
-                question: 'Tag name (in dash-case):',
-                transform: (value) => caseConvert.checkIsDashCase(value) ? value : null
-            },
-            {
-                name: 'componentName',
-                useAnswer: 'tag',
-                transform: (value) => caseConvert.dashToPascal(value)
+                question: 'Tag name (in PascalCase):',
+                transform: (value) => caseConvert.checkIsPascalCase(value) ? value : null
             }
         ];
     }
@@ -113,15 +107,15 @@ const getTemplates = (answers) => {
     const type = answers.find((answer) => answer.name === 'type').answer;
 
     return file.getTemplates(pkgDir, __dirname, [
-        { destination: components('{{ componentName }}.tsx'), name: `${ type }.tsx` },
-        { destination: components('__tests__', '{{ componentName }}.spec.tsx'), name: 'spec.tsx' }
+        { destination: components('{{ tag }}.tsx'), name: `${ type }.tsx` },
+        { destination: components('__tests__', '{{ tag }}.spec.tsx'), name: 'spec.tsx' }
     ]);
 };
 
 const notify = (answers) => {
-    const componentName = answers.find((answer) => answer.name === 'componentName').answer;
+    const tag = answers.find((answer) => answer.name === 'tag').answer;
 
     logger.info(`Don't forget to add the following to src/index.ts:`);
-    logger.info(`    import { ${ componentName } } from './components/${ componentName }';`)
+    logger.info(`    import { ${ tag } } from './components/${ tag }';`)
     logger.info(`In order for it to be available to consumers.`);
 };

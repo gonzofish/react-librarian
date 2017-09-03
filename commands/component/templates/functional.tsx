@@ -1,5 +1,5 @@
 import React from 'react';
 
-export const {{ componentName }} = (props: any) =>
-    <div>{{ componentName }}</div>;
+export const {{ tag }} = (props: any) =>
+    <div>{{ tag }}</div>;
 

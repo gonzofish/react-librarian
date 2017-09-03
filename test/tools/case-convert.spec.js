@@ -23,6 +23,17 @@ tap.test('Tool: caseConvert', (suite) => {
         test.end();
     });
 
+    suite.test('#checkIsPascalCase should return true for PascalCase', (test) => {
+        const check = convert.checkIsPascalCase;
+
+        test.plan(3);
+        test.ok(check('PascalCase'), true);
+        test.notOk(check('PascalCase2'), false);
+        test.notOk(check('dash-case'), false);
+
+        test.end();
+    });
+
     suite.test('#dashToCamel should convert dash-case to camelCase', (test) => {
         test.plan(1);
         test.equal(
