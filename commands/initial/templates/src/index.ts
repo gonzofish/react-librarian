@@ -1,5 +1,5 @@
-import { {{ componentName }} } from './components/{{ componentName }}';
+import { {{ tag }} } from './components/{{ tag }}';
 
 export {
-    {{ componentName }}
+    {{ tag }}
 };

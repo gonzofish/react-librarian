@@ -142,7 +142,7 @@ tap.test('Command: initial', (suite) => {
         });
     });
 
-    suite.test('should a componentName question transform that converts dash-case to PascalCase', (test) => {
+    suite.test('should a tag question transform that converts dash-case to PascalCase', (test) => {
         test.plan(2);
 
         mocks.case.dashToPascal.returns('BigTime');
@@ -175,7 +175,7 @@ tap.test('Command: initial', (suite) => {
         const answers = [
             { answer: 'my-pkg', name: 'name' },
             { answer: 'my-pkg', name: 'packageName' },
-            { answer: 'MyPkg', name: 'componentName' },
+            { answer: 'MyPkg', name: 'tag' },
             { answer: 'repoUrl', name: 'http://my.repo' },
             { answer: '100.200.300', name: 'version' },
             { answer: 'Pizza Party', name: 'readmeTitle' },

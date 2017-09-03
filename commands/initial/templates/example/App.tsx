@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { {{ componentName }} } from '../src/components/{{ componentName }}';
+import { {{ tag }} } from '../src/components/{{ tag }}';
 
 ReactDOM.render(
-    <{{ componentName }} />,
+    <{{ tag }} />,
     document.getElementById('example')
 );
