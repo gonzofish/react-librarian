@@ -14,7 +14,8 @@
     "posttagVersion": "npm run build && npm publish dist",
     "prebuild": "rimraf dist out-tsc",
     "tagVersion": "np --no-publish",
-    "test": "jest --coverage",
+    "test": "jest",
+    "test:cov": "jest --coverage",
     "test:watch": "jest --watch --coverage",
     "start": "webpack-dev-server --config configs/webpack.config.js"
   },
